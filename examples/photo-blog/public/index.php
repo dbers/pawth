@@ -71,32 +71,24 @@ $users_forbidden = array(
 
 	//set link alias
 $link_alias = array(
-	'terms-of-use' => 'pages/terms-of-use',
-	'privacy-policy' => 'pages/privacy-policy',
-	'privacy-settings' => 'settings/privacy',
-	'about-us' => 'pages/about-us',
-	'contact-us' => 'pages/contact-us',
-	'features' => 'pages/features',
-    'not-found' => 'pages/not-found',
-    'signup' => 'users/signup',
-    'signin' => 'users/login',
-    'login' => 'users/login',
-    'logout' => 'users/logout.do',
-    'connections' => 'account/connections'
+	/*
+	'other-name' => 'real/path'
+	*/
 );
 
 
 	// special layouts
 $special_layouts = array(
-	'pages/home' => 'blank',
-	'account/setup' => 'blank'
+	/*
+	'path' => 'layout-name'
+	*/
 );
 
 	// special layouts
 $dynamic_paths = array(
-	'crib' => true,
-	'portfolio' => true,
-	'tags' => true
+	/*
+	'root-path' => true
+	*/
 );
 
 

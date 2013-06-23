@@ -1,0 +1,1 @@
+<?php require(\View\Template::get_template_path($template, $is_guest)); ?>

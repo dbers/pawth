@@ -7,7 +7,7 @@
 	<!-- Set the viewport width to device width for mobile -->
 	<meta name="viewport" content="width=device-width" />
 
-	<title></title>
+	<title>Photo Blogs</title>
 
 </head>
 <body>

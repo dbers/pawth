@@ -31,7 +31,7 @@ define('MAX_PHOTO_RESIZE', 1000); //if a request tries to make a photo larger th
 define('TEMPLATES', ROOT . 'templates/');
 define('DATA_PATH', ROOT . 'data/');
 define('PHP_PATH', ROOT . 'php/');
-define('LOG_FILE', ROOT . 'error.log');
+define('LOG_FILE', DATA_PATH . 'error.log');
 define('TMP_FILE_DIR', DATA_PATH.'tmp/');
 
 	//set debug status
@@ -40,9 +40,9 @@ define('LOG_LEVEL', 3);
 
 
 	//should be defined in php.ini  Here for easy testing purposes only
-error_reporting(E_ALL | E_STRICT);
-ini_set('display_errors', 1);
-ini_set('error_log', DATA_PATH . '/error.log');
+//error_reporting(E_ALL | E_STRICT);
+//ini_set('display_errors', 1);
+//ini_set('error_log', DATA_PATH . '/error.log');
 
 
 	// pages guests can access

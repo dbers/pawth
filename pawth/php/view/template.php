@@ -100,6 +100,8 @@ class Template extends View {
 	public function display() {
 
 
+
+		
 		$layout_file = self::get_template_path('_layouts/' . $this->data['layout'], $this->data['is_guest']);
 		if(empty($layout_file)) {
 			Application::log_msg("No template found for ".$this->data['layout'], 1, __FILE__, __LINE__);
@@ -139,11 +141,11 @@ class Template extends View {
 			//include the file
 		include($tpl_file);
 			//get output
-		$parsed_tpl = ob_get_contents();
+		$paresed_tpl = ob_get_contents();
 			//close capture buffer
 		ob_end_clean();
 			//return txt
-		return $parsed_tpl;
+		return $paresed_tpl;
 	}
 
 
@@ -158,7 +160,7 @@ class Template extends View {
 	public static function get_template_path($template_name, $is_guest=false, $tpl_ext='.tpl.php', $full_path=true) {
 
 
-		$auth_type = ($is_guest) ? 'external' : 'internal';
+		$auth_type = ($is_guest) ? 'external':'internal';
 
 		//check for site specific templates, if that fails we check for build in default templates
 

@@ -160,7 +160,7 @@ class Template extends View {
 	public static function get_template_path($template_name, $is_guest=false, $tpl_ext='.tpl.php', $full_path=true) {
 
 
-		$auth_type = ($is_guest) ? 'guest':'member';
+		$auth_type = ($is_guest) ? 'external':'internal';
 
 		//check for site specific templates, if that fails we check for build in default templates
 

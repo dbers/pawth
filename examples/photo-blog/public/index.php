@@ -40,9 +40,9 @@ define('LOG_LEVEL', 3);
 
 
 	//should be defined in php.ini  Here for easy testing purposes only
-error_reporting(E_ALL | E_STRICT);
-ini_set('display_errors', 1);
-ini_set('error_log', DATA_PATH . '/error.log');
+//error_reporting(E_ALL | E_STRICT);
+//ini_set('display_errors', 1);
+//ini_set('error_log', DATA_PATH . '/error.log');
 
 
 	// pages guests can access
@@ -55,10 +55,10 @@ $guests_allowed = array(
 	'pages/home' => true,
 	'pages/not_found' => true,
 	'users/login' => true,
-    'users/logout' => true,
-    'users/register' => true,
-    'users/forgot_password' => true,
-    'photos/view' => true
+	'users/logout' => true,
+	'users/register' => true,
+	'users/forgot_password' => true,
+	'photos/photos' => true
 );
 
 	// pages logged in users can't access
@@ -71,24 +71,22 @@ $users_forbidden = array(
 
 	//set link alias
 $link_alias = array(
-	/*
-	'other-name' => 'real/path'
-	*/
+	'register' => 'users/register',
+	'logout' => 'users/logout',
+	'login' => 'users/login',
+	'not_found' => 'pages/not_found',
+	'contact_us' => 'pages/contact_us',
+	'about_us' => 'pages/about_us',
+	'privacy_policy' => 'pages/privacy_policy'
 );
 
 
 	// special layouts
-$special_layouts = array(
-	/*
-	'path' => 'layout-name'
-	*/
-);
+$special_layouts = array();
 
 	// special layouts
 $dynamic_paths = array(
-	/*
-	'root-path' => true
-	*/
+	'photos' => true
 );
 
 	//load up core system

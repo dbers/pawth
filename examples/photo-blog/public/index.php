@@ -96,6 +96,20 @@ $dynamic_paths = array(
 include(PHP_PATH . 'init.php');
 
 
+	//get an instance of the controller
+$app = new \Core\Application();
+
+$app->set_user_func(function() {
+	return \Model\User::get_active_user();
+});
+
+	//run application
+$app->run();
+
+
+
+
+
 
 
 

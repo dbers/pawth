@@ -88,20 +88,20 @@ $dynamic_paths = array(
 );
 
 
-	//load up core system
+	// load up core system
 include(PHP_PATH . 'init.php');
 
 
-//get an instance of the controller
+	// get an instance of the controller
 $app = new \Core\Application();
 
 /*
 $app->set_user_func(function() {
 	return \Model\User::get_active_user();
 });
-  */
+ */ 
 
-//run application
+	//run application
 $app->run();
 
 

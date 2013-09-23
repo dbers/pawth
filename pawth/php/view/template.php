@@ -130,7 +130,7 @@ class Template extends View {
 	public static function fetch_tpl($name, $vars) {
 	
 		$tpl_file = self::get_template_path('emails', $name);
-
+	  echo $tpl_file;
 		if(!file_exists($tpl_file)) {
 			return false;
 		}

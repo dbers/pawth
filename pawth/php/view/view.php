@@ -7,10 +7,13 @@
  * @param	array	$data	Array of view variables to make accessible to view_display functions
  * @param	array	$errors	Array of error messages for the view
  * @param	array	$extra
+ * @param	boolean	$is_internal    True if application is handling an authenticated user
  * @param	string	$layout_type	The type of layout to use for templates
  * @package    View
  */
 namespace View;
+
+use \Core\Errors as Errors;
 
 abstract class View {
 	
@@ -18,6 +21,7 @@ abstract class View {
 	protected $data = array();
 	protected $errors = array();
 	protected $extra = array();
+	protected $is_internal = false;
 
 	/**
 	 * Class constructor
@@ -34,11 +38,12 @@ abstract class View {
 	 * @param	array 	$extra	Optional layout for the view to use (default: false)
 	 */
 	public function init($data=array(), $extra=array()) {
-		
+
 			//get a copy of the view data from the controller class 
 		$this->data = $data;
 		$this->extra = $extra;
-		$this->errors = \Core\Errors::fetch(true);
+		$this->errors = Errors::fetch(true);
+		$this->is_internal = (isset($data['user']) && $data['user']) ? true : false;
 		
 	}
 

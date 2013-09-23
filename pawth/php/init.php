@@ -126,12 +126,7 @@ defined('DEBUG_LEVEL') || define('DEBUG_LEVEL', 0);
 defined('X_SENDFILE') || define('X_SENDFILE', 0);
 defined('MEMCACHE_USE') || define('MEMCACHE_USE', 0);
 
-//Don't waste time with auto-loader, include files that are always needed
-require(PHP_PATH . 'view/view.php');
 include(PHP_PATH . 'core/application.php');
-include(PHP_PATH . 'core/dbi.php');
-include(PHP_PATH . 'core/request.php');
-
 
 	//register error handler and shut down functions
 set_error_handler("error_handler");

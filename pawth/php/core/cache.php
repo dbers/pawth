@@ -11,6 +11,8 @@
  */
 namespace Core;
 
+use \Dbi\MySQL as DBI;
+
 class Cache {
 	
 		//@todo add apc/xcache ...?

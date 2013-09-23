@@ -249,9 +249,11 @@ class MySQL {
 	 * @param	string	$get_field
 	 * @param	array 	$conditions
 	 * @param	array 	$order	An array of values to set the order by
+	 * @param   integer $start
+	 * @param   integer $count
 	 * @return	array
 	 */
-	public static function values($table, $get_field, $conditions=null, $order=null) {
+	public static function values($table, $get_field, $conditions=null, $order=null, $start=0, $count=null) {
 			//don't allow empty where conditions
 		if(empty($table) || empty($get_field)) {
 			return false;
@@ -269,8 +271,16 @@ class MySQL {
 		else {
 			$order_by = '';
 		}
+
+		if(is_numeric($start) && is_numeric($count)) {
+			$limit_sql = "LIMIT {$start}, {$count}";
+		}
+		else {
+			 $limit_sql = '';
+
+		}
 	
-		$sql = "SELECT `{$get_field}` FROM `{$table}`  {$where_sql} {$order_by}";
+		$sql = "SELECT `{$get_field}` FROM `{$table}`  {$where_sql} {$order_by} {$limit_sql}";
 	
 			//run query
 		$sth = self::query($sql, $value_replace);

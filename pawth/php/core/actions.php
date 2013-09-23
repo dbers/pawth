@@ -113,7 +113,7 @@ class Actions {
 
 	/**
 	 * Set return data
-	 * @param    mix $data
+	 * @param    mixed $data
 	 * @return    void
 	 */
 	public function set_data($data) {

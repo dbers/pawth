@@ -12,15 +12,18 @@ class File {
 
 	/**
 	 * Save an uploaded file to a temporary place
+	 *
 	 * @param	array	$file_data  Specific $_FILE data for this 1 file
 	 * @param	string	&$new_file	The location of the new uploade dfile
 	 * @param	string	$format
 	 * @param	integer	$max_width
 	 * @param	integer	$max_height
-	 * @return	false | new file location
+	 *
+	 * @return	string
 	 */
-	public static function save_image_upload($file_data, &$new_file, $format=false, $max_width=false, $max_height=false) {
+	public static function save_image_upload($file_data, &$new_file, $format=null, $max_width=null, $max_height=null) {
 
+		$new_file = null;
 		
 		$err = self::upload_error($file_data);
 			//see if there was an upload error
@@ -36,7 +39,7 @@ class File {
 		if(!move_uploaded_file($file_data["tmp_name"], $tmp_file)) {
 			return 'move_error';
 		}
-		
+
 			//lets make sure that this is an actual image
 		if((list($width, $height, $type_number) = @getimagesize($tmp_file)) === FALSE) {
 			return 'invalid';
@@ -81,14 +84,16 @@ class File {
 	
 	/**
 	 * Save an uploaded file to a temporary place
+	 *
 	 * @param	array 	$byte_array	Specific $_FILE data for this 1 file
 	 * @param	string	&$new_file	The location of the new uploade dfile
 	 * @param	string	$format
 	 * @param	integer	$max_width
 	 * @param	integer	$max_height
-	 * @return	false | new file location
+	 *
+	 * @return	bool|string
 	 */
-	public static function save_image_webcam($byte_array, &$tmp_file, $format=false, $max_width=false, $max_height=false) {
+	public static function save_image_webcam($byte_array, &$tmp_file, $format=null, $max_width=null, $max_height=null) {
 
 		$tmp_name = uniqid(rand()).'.jpg';
 		$tmp_file = TMP_FILE_DIR . $tmp_name;
@@ -140,24 +145,25 @@ class File {
 	
 	/**
 	 * Convert an image from 1 format to another
+	 *
 	 * @param	string	$source_file
 	 * @param	string	$source_format
 	 * @param	string	$target_file
 	 * @param	string	$target_format
+	 *
+	 * @return boolean
 	 */
 	public static function convert_image($source_file, $source_format, $target_file, $target_format) {
 		
 		if(!file_exists($source_file)) {
 			return false;
 		}
-			//dont waste time
+			//don't waste time
 		if($source_format == $target_format) {
 			return true;
 		}
-	
-		
+
 			//load image into memory
-		
 		switch($source_format) {
 			case 'gif' : {
 				$image = imagecreatefromgif($source_file);
@@ -205,6 +211,7 @@ class File {
 				}
 				break;
 			}
+			case 'jpeg' :
 			case 'jpg' : {
 					//@todo find way to set this config of jpeg quality
 				if(!imagejpeg($image, $target_file, 70)) {
@@ -228,17 +235,19 @@ class File {
 	
 	/**
 	 * Resize image
-	 * @param	string	$file  Full physical path to image
-	 * @param	string	$type  Type of image
-	 * @param	integer	$width  desire image width. Set to 0 to ignore (default: 0)
-	 * @param	integer	$height  desired image height. Set to 0 to ignore (default: 0)
-	 * @param	integer	$max_width  max size for the image width. Set to 0 to ignore (default: 0)
-	 * @param	integer	$max_height  max size for the image height. Set to 0 to ignore (default: 0)
-	 * @return	string  full path to resized image
+	 *
+	 * @param	string	$source_file  Full physical path to image
+	 * @param	string	$target_file  Full physical path to image
+	 * @param	string	$type         Type of image
+	 * @param	integer	$width        Desire image width. Set to 0 to ignore (default: 0)
+	 * @param	integer	$height       Desired image height. Set to 0 to ignore (default: 0)
+	 * @param	integer	$max_width    Max size for the image width. Set to 0 to ignore (default: 0)
+	 * @param	integer	$max_height   Max size for the image height. Set to 0 to ignore (default: 0)
+	 *
+	 * @return	boolean
 	 */
 	public static function resize_image($source_file, $target_file, $type, $width=0, $height=0, $max_width=0, $max_height=0) {
-		//echo $source_file."<br>\n";
-		//echo $target_file;
+
 			//make sure bad things cant happen
 		if(empty($width) && empty($height) && empty($max_width) && empty($max_height)) {
 			return true;
@@ -246,7 +255,7 @@ class File {
 			
 			//get the current image size  
 		if(false !== (list($file_width, $file_height) = @getimagesize($source_file))) {
-				//now figure out what we want to do (max is always honered first)
+				//now figure out what we want to do (max is always honored first)
 			if(($max_width > 0) || ($max_height > 0)) {
 						//figure out what ratio to use if both are set
 				if(($max_width > 0) && ($max_height > 0)) {
@@ -264,7 +273,7 @@ class File {
 			}
 			else {
 				
-				 //they want an 'actual' demension so lets resize it, keep the ratio, and crop whats not needed
+				 //they want an 'actual' dimension so lets resize it, keep the ratio, and crop whats not needed
 				$new_width = ($width > 0) ? $width : $file_width;
 				$new_height = ($height > 0) ? $height : $file_height;
 			}
@@ -333,7 +342,10 @@ class File {
 		
 	/**
 	 * Delete a file
+	 *
 	 * @param	string	$file
+	 *
+	 * @return  boolean
 	 */
 	public static function remove($file) {
 		
@@ -353,8 +365,11 @@ class File {
 	
 	/**
 	 * Move a file
+	 *
 	 * @param	string	$old_fname
 	 * @param	string	$new_fname
+	 *
+	 * @return  boolean
 	 */
 	public static function move($old_fname, $new_fname) {
 		
@@ -397,17 +412,18 @@ class File {
 	 * @return	boolean
 	 */
 	public function save_upload($new_file, $file_data, $create_path=true) {
-	        print_r($file_data);
+
+
+		//@todo see why this function no longer usese two variables and adjust if needed
+
 		if($err = self::upload_error($file_data)) {
 			\Core\Errors::add('file', $err);
 			return false;
 		}
 		else if(!is_uploaded_file($file_data['tmp_name'])) {
 
-
-			echo 'gggaaa';
 			\Core\Errors::add('file', 'invalid');
-				return false;
+			return false;
 		}
 	
 		return true;

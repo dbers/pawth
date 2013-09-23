@@ -23,6 +23,7 @@ class Template extends View {
 		global $dynamic_paths;
 		global $special_layouts;
 
+
 			//build up default template array of data
 
 		if(empty($this->data['template'])) {
@@ -37,7 +38,7 @@ class Template extends View {
                 }
 			}
             else if($this->data['path_data']['argc'] < 2) {
-                    // go to template aries homepage
+                    // go to template areas homepage
                 $this->data['template'] = $this->data['path_data']['argv'][0] . '/' . $this->data['path_data']['argv'][0];
             }
             else if(isset($dynamic_paths[$this->data['path_data']['argv'][0]]) || is_numeric($this->data['path_data']['argv'][1])) {
@@ -67,7 +68,7 @@ class Template extends View {
 
         if($this->data['user']) {
             $this->data['is_guest'] = false;
-            $this->data['my_profile'] = $_SESSION['profile'];
+	        $this->data['my_profile'] = \Model\Profile::load($this->data['user']);
         }
         else {
             $this->data['is_guest'] = true;
@@ -79,12 +80,12 @@ class Template extends View {
         }
 
 	        //not a system error, just an invalid URL
-        if(!self::get_template_path($this->data['template'], $this->data['is_guest'])) {
+        if(!self::get_template_path($this->data['template'])) {
             Application::redirect_404(__FILE__, __LINE__);
         }
 
             //not a system error, just an invalid URL
-        if(!self::get_template_path('_layouts/'.$this->data['layout'], $this->data['is_guest'])) {
+        if(!self::get_template_path('_layouts/'.$this->data['layout'])) {
             Application::redirect_404(__FILE__, __LINE__);
         }
 
@@ -100,7 +101,9 @@ class Template extends View {
 	public function display() {
 
 
-		$layout_file = self::get_template_path('_layouts/' . $this->data['layout'], $this->data['is_guest']);
+
+		
+		$layout_file = self::get_template_path('_layouts/' . $this->data['layout']);
 		if(empty($layout_file)) {
 			Application::log_msg("No template found for ".$this->data['layout'], 1, __FILE__, __LINE__);
 			return false;
@@ -109,6 +112,8 @@ class Template extends View {
 		
 		extract($GLOBALS, EXTR_REFS);
 		extract($this->data, EXTR_REFS);
+
+		$view = $this;
 		
 		include($layout_file);
 
@@ -125,7 +130,7 @@ class Template extends View {
 	public static function fetch_tpl($name, $vars) {
 	
 		$tpl_file = self::get_template_path('emails', $name);
-	
+
 		if(!file_exists($tpl_file)) {
 			return false;
 		}
@@ -139,26 +144,29 @@ class Template extends View {
 			//include the file
 		include($tpl_file);
 			//get output
-		$parsed_tpl = ob_get_contents();
+		$paresed_tpl = ob_get_contents();
 			//close capture buffer
 		ob_end_clean();
 			//return txt
-		return $parsed_tpl;
+		return $paresed_tpl;
 	}
 
 
 	/**
 	 * Get the template path
 	 * @param	string	$template_name	This is the template that should be loaded
-	 * @param	boolean	$is_guest	Set to true if a guest is viewing template (default: false)
+	 * @param	boolean	$is_internal	Set to true if an authenticated user is viewing
 	 * @param	string	$tpl_ext	The extension of the template file (Default: .tpl.php)
 	 * @param	boolean	$full_path	Set this to false to just return the relative template path
 	 * @return  string
 	 */
-	public static function get_template_path($template_name, $is_guest=false, $tpl_ext='.tpl.php', $full_path=true) {
+	public function get_template_path($template_name, $is_internal=null, $tpl_ext='.tpl.php', $full_path=true) {
 
+		if($is_internal === null) {
+			$is_internal = $this->is_internal;
+		}
 
-		$auth_type = ($is_guest) ? 'external' : 'internal';
+		$auth_type = ($is_internal) ? 'internal' : 'external';
 
 		//check for site specific templates, if that fails we check for build in default templates
 

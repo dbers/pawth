@@ -17,8 +17,8 @@ define('DB_NAME', $_SERVER['DB_NAME']);
 define('DB_USER', $_SERVER['DB_USER']);
 define('DB_PASS', $_SERVER['DB_PASS']);
 
-define('EMAIL_FROM', 'webmaster@pawth.com');
-define('EMAIL_NO_REPLY', 'no-reply@pawth.com');
+define('EMAIL_FROM', 'webmaster@domain.com');
+define('EMAIL_NO_REPLY', 'no-reply@domain.com');
 
 define('MAX_PHOTO_COUNT', 30);
 define('MAX_PHOTO_SIZE', 2097152);
